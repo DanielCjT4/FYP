@@ -1,0 +1,33 @@
+{
+  "reports": [
+    {
+      "id": 1,
+      "title": "Testing of Submitting Report",
+      "description": "For testing Purpose",
+      "severity": "Medium",
+      "cvssScore": 6,
+      "program": "Program #1",
+      "researcher": "Alice",
+      "cid": "QmZ6AaUXvXd81XvWj5zq4CQ66soEedxWta5Q8XyWzhwTi1",
+      "txHash": "0x1941f12ac12623230f36247b65377c63f362a456ad5079280fcb482fc3f7a7b4",
+      "organization": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "collaborators": [],
+      "status": "resolved",
+      "timestamp": "2026-06-17T07:41:23.743Z",
+      "rejectionCid": "Qmb1eb71YsTKwT93Z9DzEvR7eE6UjjwY5WqNUubDusCmav",
+      "disputeCid": "QmctSDEcCCUMscskRKBy4Db8mS9pbPj5Au6eS1PyP9qFnc"
+    }
+  ],
+  "programs": [],
+  "payouts": [],
+  "discussions": {
+    "1": [
+      {
+        "sender": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "senderName": "Alice",
+        "text": "73b2087d67edf55f1c3062ea:d2b1edef45a6fb195a779b235ae13acf:38642f6e150ffd293ae0806059830faf28a85f18c8d0a3c7fb3ddc",
+        "timestamp": 1781682111611
+      }
+    ]
+  }
+}

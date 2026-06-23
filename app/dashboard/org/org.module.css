@@ -1,0 +1,161 @@
+.pageContainer {
+    background: #0a0a0a;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.stickyNav {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 70px;
+    z-index: 90;
+    backdrop-filter: blur(10px);
+}
+
+.navContainer {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.tabButton {
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.tabButtonActive {
+    border-bottom: 2px solid var(--primary);
+    color: #fff;
+}
+
+.workspaceHeader {
+    padding: 1rem;
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+}
+
+.contentContainer {
+    margin-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+/* Inbox View */
+.inboxList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.emptyState {
+    padding: 3rem;
+    text-align: center;
+    border-radius: 12px;
+    color: #888;
+}
+
+.reportCard {
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reportMetaGroup {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.reportId {
+    font-family: monospace;
+    color: #888;
+}
+
+.severityBadge {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.reportDate {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.statusBadge {
+    color: #00f0ff;
+    font-size: 0.85rem;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+}
+
+.reportTitle {
+    margin: 0;
+}
+
+.blurredTitle {
+    filter: blur(4px);
+    user-select: none;
+}
+
+.unlockButton {
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Workspace View */
+.workspaceGrid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.mainPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.evidenceCard {
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.evidenceHeader {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.evidenceTitle {
+    margin: 0;
+}
+
+.evidenceTags {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.evidenceTag {
+    background: #333;
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+}
+
+.evidenceBody {
+    line-height: 1.6;
+    color: #ddd;
+}

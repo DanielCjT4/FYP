@@ -1,0 +1,32 @@
+{
+  "name": "vulnerability-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "deploy": "npx hardhat ignition deploy ./ignition/modules/VulnerabilityPlatform.js --network localhost --reset",
+    "seed": "npx hardhat run scripts/seed.js --network localhost",
+    "reset": "npm run deploy && npm run seed",
+    "rebuild-cache": "npx hardhat run scripts/rebuildCache.js --network localhost"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
+    "ethers": "^6.16.0",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.4.0",
+    "uc.micro": "^2.1.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^17.2.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "hardhat": "^2.22.17"
+  }
+}
