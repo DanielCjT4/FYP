@@ -25,6 +25,14 @@ module.exports = {
             chainId: 1337,
         },
     },
+    etherscan: {
+        apiKey: process.env.ETHERSCAN_API_KEY
+    },
+    gasReporter: {
+        enabled: true,
+        currency: "USD",
+        showTimeSpent: true,
+    },
     paths: {
         artifacts: "./artifacts",
     },

@@ -6,7 +6,7 @@ import VulnerabilityPlatform from '../../artifacts/contracts/VulnerabilityPlatfo
 
 const WalletContext = createContext();
 
-const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Localhost Deployed
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 export function WalletProvider({ children }) {
     const [account, setAccount] = useState(null);

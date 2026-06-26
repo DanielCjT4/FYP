@@ -9,7 +9,7 @@ import { useWallet } from '../../contexts/WalletContext';
 import styles from './researcher.module.css';
 
 export default function ResearcherDashboard() {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const { account, contract, connectWallet, disconnectWallet } = useWallet();
     const [view, setView] = useState('my-submissions');
     const [showSubmitModal, setShowSubmitModal] = useState(false);
@@ -403,9 +403,13 @@ export default function ResearcherDashboard() {
                 await regTx.wait();
             }
 
-            // For the Prototype, we will use a dummy Hardhat Account as the Organization Target
-            const TARGET_ORG_ADDRESS = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"; // Hardhat Account #1
-
+            // Ensure a target program is selected so we don't send to a null address
+            if (!selectedProgram) {
+                alert("Please select a target Bounty Program before submitting your report.");
+                setSubmitStatus('');
+                setUploadingIPFS(false);
+                return;
+            }
             // Validate and parse dynamic collaborators & splits
             const validCollabs = collaborators.filter(c => c.address.trim() !== '' && c.split !== '');
             const collabAddresses = validCollabs.map(c => c.address.trim());
@@ -423,7 +427,7 @@ export default function ResearcherDashboard() {
             
             // 2. Call the submitReport function on the Smart Contract
             const tx = await contract.submitReport(
-                selectedProgram?.orgAddress || TARGET_ORG_ADDRESS,
+                selectedProgram.orgAddress,
                 finalCid,
                 collabAddresses,
                 collabSplits
@@ -460,7 +464,7 @@ export default function ResearcherDashboard() {
                     id: blockchainId,
                     cid: finalCid,
                     txHash: receipt.hash,
-                    organization: selectedProgram?.orgAddress || TARGET_ORG_ADDRESS,
+                    organization: selectedProgram.orgAddress,
                     collaborators: validCollabs
                 })
             });
@@ -564,6 +568,27 @@ export default function ResearcherDashboard() {
             {label}
         </span>
     );
+
+    if (loading) {
+        return (
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#888' }}>
+                <h2>Loading Profile...</h2>
+            </div>
+        );
+    }
+
+    if (!user || user.role !== 'Researcher') {
+        return (
+            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#fff', fontFamily: 'Inter, sans-serif' }}>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>⛔</div>
+                <h1 style={{ fontSize: '2.5rem', color: '#ff003c', marginBottom: '1rem', fontWeight: '800', letterSpacing: '-1px' }}>Unauthorized Access</h1>
+                <p style={{ fontSize: '1.1rem', color: '#888', marginBottom: '2rem' }}>You do not have the required "Researcher" role to view this dashboard.</p>
+                <button onClick={() => window.location.href = '/'} style={{ background: '#222', color: '#fff', border: '1px solid #444', padding: '12px 24px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
+                    Return to Home
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className={`page-content ${styles.pageContainer}`}>

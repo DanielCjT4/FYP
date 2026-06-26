@@ -8,31 +8,37 @@ const AuthContext = createContext();
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const ROLE_NAMES = ['None', 'Researcher', 'Organization', 'Validator'];
-const HARDHAT_CHAIN_ID = '0x539'; // 1337 in hex
+// Read target network from .env (fallback to Hardhat 1337 if not set)
+const TARGET_CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID || '0x539';
 
-// Helper: force MetaMask onto the correct local chain
+// Helper: force MetaMask onto the correct network
 async function ensureCorrectNetwork() {
     try {
         await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: HARDHAT_CHAIN_ID }],
+            params: [{ chainId: TARGET_CHAIN_ID }],
         });
     } catch (switchError) {
+        // If the network is not added to MetaMask (code 4902)
         if (switchError.code === 4902) {
+            const isSepolia = TARGET_CHAIN_ID === '0xaa36a7';
             await window.ethereum.request({
                 method: 'wallet_addEthereumChain',
                 params: [{
-                    chainId: HARDHAT_CHAIN_ID,
-                    chainName: 'DecenBug Localhost (1337)',
+                    chainId: TARGET_CHAIN_ID,
+                    chainName: isSepolia ? 'Sepolia Testnet' : 'DecenBug Localhost (1337)',
                     nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
-                    rpcUrls: ['http://127.0.0.1:8545'],
+                    rpcUrls: isSepolia ? ['https://rpc.sepolia.org'] : ['http://127.0.0.1:8545'],
+                    blockExplorerUrls: isSepolia ? ['https://sepolia.etherscan.io'] : null
                 }],
             });
+        } else {
+            console.error("Failed to switch network:", switchError);
         }
     }
     const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
-    if (currentChainId !== HARDHAT_CHAIN_ID) {
-        throw new Error("You must allow MetaMask to switch to the DecenBug Localhost network.");
+    if (currentChainId !== TARGET_CHAIN_ID) {
+        throw new Error(`You must allow MetaMask to switch to the correct network (${TARGET_CHAIN_ID}).`);
     }
 }
 

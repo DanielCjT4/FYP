@@ -19,7 +19,7 @@ function getExtensionFromMime(mimeType) {
 }
 
 export default function ValidatorDashboard() {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const { account, contract, connectWallet, disconnectWallet } = useWallet();
     const [view, setView] = useState('open-disputes');
     const [selectedDispute, setSelectedDispute] = useState(null);
@@ -247,6 +247,27 @@ export default function ValidatorDashboard() {
         { key: 'history', label: 'Resolved Cases' },
         { key: 'earnings', label: 'Wallet & Earnings' },
     ];
+
+    if (loading) {
+        return (
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#888' }}>
+                <h2>Loading Profile...</h2>
+            </div>
+        );
+    }
+
+    if (!user || user.role !== 'Validator') {
+        return (
+            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#fff', fontFamily: 'Inter, sans-serif' }}>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>⛔</div>
+                <h1 style={{ fontSize: '2.5rem', color: '#ff003c', marginBottom: '1rem', fontWeight: '800', letterSpacing: '-1px' }}>Unauthorized Access</h1>
+                <p style={{ fontSize: '1.1rem', color: '#888', marginBottom: '2rem' }}>You do not have the required "Validator" role to view this dashboard.</p>
+                <button onClick={() => window.location.href = '/'} style={{ background: '#222', color: '#fff', border: '1px solid #444', padding: '12px 24px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
+                    Return to Home
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className={`page-content ${styles.pageContainer}`}>
