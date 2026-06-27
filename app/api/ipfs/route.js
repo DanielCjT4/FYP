@@ -16,7 +16,6 @@ export async function POST(request) {
         }
 
         // --- AES-GCM Server-Side Encryption ---
-        // This ensures the file on IPFS is completely unreadable to the public
         const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY || '12345678901234567890123456789012');
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
@@ -26,7 +25,7 @@ export async function POST(request) {
         const cipher = crypto.createCipheriv('aes-256-gcm', ENCRYPTION_KEY, iv);
         const encrypted = Buffer.concat([cipher.update(buffer), cipher.final()]);
         const authTag = cipher.getAuthTag();
-        
+
         // Structure: IV (12 bytes) + AuthTag (16 bytes) + Encrypted Payload
         const finalBuffer = Buffer.concat([iv, authTag, encrypted]);
         const encryptedBlob = new Blob([finalBuffer]);
