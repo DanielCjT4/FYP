@@ -17,7 +17,12 @@ export async function POST(request) {
             return NextResponse.json({ error: "Report not found" }, { status: 404 });
         }
 
-        if (status) db.reports[reportIndex].status = status;
+        if (status) {
+            db.reports[reportIndex].status = status;
+            if (status === 'under_review') {
+                db.reports[reportIndex].unlockedAt = Date.now();
+            }
+        }
         if (rejectionCid) db.reports[reportIndex].rejectionCid = rejectionCid;
         if (disputeCid) db.reports[reportIndex].disputeCid = disputeCid;
 

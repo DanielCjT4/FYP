@@ -1,4 +1,4 @@
-require("@nomicfoundation/hardhat-toolbox");
+    require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -24,14 +24,6 @@ module.exports = {
             url: "http://127.0.0.1:8545",
             chainId: 1337,
         },
-    },
-    etherscan: {
-        apiKey: process.env.ETHERSCAN_API_KEY
-    },
-    gasReporter: {
-        enabled: true,
-        currency: "USD",
-        showTimeSpent: true,
     },
     paths: {
         artifacts: "./artifacts",

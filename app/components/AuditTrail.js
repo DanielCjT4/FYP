@@ -133,8 +133,32 @@ export default function AuditTrail({ contract, reportId, account }) {
                 });
             }
 
-            // Sort by block number, then by timestamp
-            timeline.sort((a, b) => a.blockNumber - b.blockNumber || a.timestamp - b.timestamp);
+            // 5. Off-Chain Events (e.g. Unlocked Timestamp)
+            try {
+                const res = await fetch("/api/reports");
+                const data = await res.json();
+                const reportData = data.reports?.find(r => r.id === Number(reportId));
+                
+                if (reportData && reportData.unlockedAt) {
+                    timeline.push({
+                        type: 'status',
+                        status: 'unlocked',
+                        icon: '🔓',
+                        label: 'Report Unlocked & Accessed',
+                        color: '#ffcc00',
+                        actor: reportData.organization || 'Organization',
+                        blockNumber: 'Off-Chain',
+                        timestamp: reportData.unlockedAt,
+                        txHash: 'N/A',
+                        extra: 'Proof of View (Off-Chain)'
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to fetch off-chain events:", err);
+            }
+
+            // Sort by timestamp (since some events are off-chain and have no block number)
+            timeline.sort((a, b) => a.timestamp - b.timestamp);
 
             // Calculate time deltas between events
             for (let i = 1; i < timeline.length; i++) {
